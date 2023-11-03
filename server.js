@@ -9,6 +9,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json({ extended: false }));
 //app.use(cookieParser());
 
+//   Api Health Checker
+app.get("/api/healthchecker", (req, res) => {
+    res.status(200).json({
+        status: "success",
+        message: "Welcome to Thrift Chain",
+    });
+});
+
 //Database connection
 const dbURI = process.env.MONGO_URI;
 mongoose.connect(dbURI,
