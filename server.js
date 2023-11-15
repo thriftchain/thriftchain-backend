@@ -1,8 +1,12 @@
 const express = require('express')
+const expressWs = require('express-ws')
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
-require('dotenv').config
+const messageRoutes = require('./routes/messageRoute');
+require('dotenv').config()
 const app = express()
+const wsInstance = expressWs(app)
+
 
 //middleware
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -19,14 +23,12 @@ app.get("/api/healthchecker", (req, res) => {
 
 //Database connection
 const dbURI = process.env.MONGO_URI;
-mongoose.connect(dbURI,
-    {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-    })
+mongoose.connect(dbURI,)
     .then(() => console.log("database connected"))
     .catch((err) => console.log(err));
 
+app.use('/messaging', messageRoutes(wsInstance.getWss()));
+app.wsInstance = wsInstance;
 
 const port = 3000;
 app.listen(port, () => {
