@@ -1,11 +1,13 @@
 const express = require('express')
-const expressWs = require('express-ws')
+
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const messageRoutes = require('./routes/messageRoute');
+
 require('dotenv').config()
 const app = express()
-const wsInstance = expressWs(app)
+
+
 
 
 //middleware
@@ -27,8 +29,7 @@ mongoose.connect(dbURI,)
     .then(() => console.log("database connected"))
     .catch((err) => console.log(err));
 
-app.use('/messaging', messageRoutes(wsInstance.getWss()));
-app.wsInstance = wsInstance;
+
 
 const port = 3000;
 app.listen(port, () => {
