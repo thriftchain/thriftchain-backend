@@ -1,14 +1,10 @@
 const express = require('express')
-
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
-const messageRoutes = require('./routes/messageRoute');
-
 require('dotenv').config()
 const app = express()
 
-
-
+const server = http.createServer(app)
 
 //middleware
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -28,7 +24,6 @@ const dbURI = process.env.MONGO_URI;
 mongoose.connect(dbURI,)
     .then(() => console.log("database connected"))
     .catch((err) => console.log(err));
-
 
 
 const port = 3000;
