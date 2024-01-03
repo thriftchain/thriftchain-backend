@@ -4,7 +4,6 @@ const mongoose = require("mongoose");
 require('dotenv').config()
 const app = express()
 
-const server = http.createServer(app)
 
 //middleware
 app.use(bodyParser.urlencoded({ extended: true }));
