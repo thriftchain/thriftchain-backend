@@ -1,11 +1,12 @@
 const express = require('express')
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const cors = require('cors')
 require('dotenv').config()
 const waitlistRoute = require('./routes/waitListRoute');
 const app = express()
 
-
+app.use(cors())
 //middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json({ extended: false }));
