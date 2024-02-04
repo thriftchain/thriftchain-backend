@@ -1,3 +1,4 @@
+const { generateToken } = require("../config/jwt");
 const User = require("../model/userModel");
 const asyncHandler = require("express-async-handler");
 
@@ -25,7 +26,7 @@ const userLogin = asyncHandler(async (req, res) => {
             lastname: findUser?.lastname,
             email: findUser?.email,
             mobile: findUser?.mobile,
-            //token: generateToken(findUser?._id)
+            token: generateToken(findUser?._id)
         })
     } else {
         throw new Error("Invalid password")
