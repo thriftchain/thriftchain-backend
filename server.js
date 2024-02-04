@@ -1,11 +1,14 @@
 const express = require('express')
 const bodyParser = require("body-parser");
-const mongoose = require("mongoose");
 const cors = require('cors')
 require('dotenv').config()
 const waitlistRoute = require('./routes/waitListRoute');
-const app = express()
+const dbconnect = require('./config/dbconnection');
+const userRoutes = require('./routes/userRoute');
+const { notFound, errorHandler } = require('./middleware/errorhandler');
 
+const app = express()
+dbconnect()
 app.use(cors())
 //middleware
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -20,15 +23,14 @@ app.get("/api/healthchecker", (req, res) => {
     });
 });
 
-//Database connection
-const dbURI = process.env.MONGO_URI;
-mongoose.connect(dbURI,)
-    .then(() => console.log("database connected"))
-    .catch((err) => console.log(err));
+
 
 //waitlist router
 app.use("/waitlist", waitlistRoute)
+app.use('/api/user',userRoutes)
 
+app.use(notFound)
+app.use(errorHandler)
 const port = 3000;
 app.listen(port, () => {
     console.log(`server running on port ${port}`);
