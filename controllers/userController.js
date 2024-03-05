@@ -1,8 +1,12 @@
 const { generateToken } = require("../config/jwt");
 const User = require("../model/userModel");
 const asyncHandler = require("express-async-handler");
+const { validateInput } = require("../validation/inputValidation");
 
 const createUser = asyncHandler(async (req, res) => {
+    const { error } = validateInput(req.body);
+    if (error) return res.status(400).json(error.details[0].message);
+
     const email = req.body.email;
     const findUser = await User.findOne({ email: email })
     if (!findUser) {
@@ -16,6 +20,7 @@ const createUser = asyncHandler(async (req, res) => {
 
 
 const userLogin = asyncHandler(async (req, res) => {
+
     const { email, password } = req.body;
     //check if user is in database
     const findUser = await User.findOne({ email });
@@ -33,4 +38,4 @@ const userLogin = asyncHandler(async (req, res) => {
     }
 })
 
-module.exports = {createUser,userLogin}
+module.exports = { createUser, userLogin }
