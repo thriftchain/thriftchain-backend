@@ -4,7 +4,7 @@ const asyncHandler = require("express-async-handler");
 const { validateInput } = require("../validation/inputValidation");
 
 const createUser = asyncHandler(async (req, res) => {
-    const { error } = validateInput(req.body);
+    const { error } = validateInput(req.email, req.name);
     if (error) return res.status(400).json(error.details[0].message);
 
     const email = req.body.email;
