@@ -14,7 +14,7 @@ const createUser = asyncHandler(async (req, res) => {
         const newUser = await User.create(req.body)
         res.json(newUser)
     } else {
-        throw new Error("User alreadly exist")
+        res.status(400).json({ message: "User already exists" });
     }
 });
 
@@ -26,15 +26,15 @@ const userLogin = asyncHandler(async (req, res) => {
     const findUser = await User.findOne({ email });
     if (findUser && (await findUser.isPasswordMatched(password))) {
         res.json({
-            _id: findUser?._id,
-            firstname: findUser?.firstname,
-            lastname: findUser?.lastname,
-            email: findUser?.email,
-            mobile: findUser?.mobile,
-            token: generateToken(findUser?._id)
+            _id: findUser._id,
+            firstname: findUser.firstname,
+            lastname: findUser.lastname,
+            email: findUser.email,
+            mobile: findUser.mobile,
+            token: generateToken(findUser._id),
         })
     } else {
-        throw new Error("Invalid password")
+        res.status(401).json({ message: "Invalid email or password" });
     }
 })
 
